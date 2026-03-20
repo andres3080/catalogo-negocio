@@ -1,21 +1,33 @@
 package com.catalogo.negocio.model;
 
 public enum ProductCategory {
-    PUERTAS_ALUMINIO("Puertas de aluminio"),
+    PUERTAS_ALUMINIO("Puertas abatibles"),
+    PUERTAS_CORREDIZAS("Puertas corredizas"),
+    BARANDAS("Barandas en acero"),
     VENTANAS("Ventanas"),
-    VENTANAS_CORREDIZAS("Ventanas corredizas"),
-    BARANDAS("Barandas en acero inoxidable y vidrio templado"),
     MAMPARAS_BANO("Mamparas de bano"),
     MUEBLES_COCINA("Muebles para cocina"),
-    ESTRUCTURAS_METALICAS("Estructuras metalicas");
+    ESPEJOS("Espejos"),
+    ESTRUCTURAS_METALICAS("Estructuras metalicas"),
+    VENTANAS_CORREDIZAS("Ventanas corredizas", false);
 
     private final String displayName;
+    private final boolean visible;
 
     ProductCategory(String displayName) {
+        this(displayName, true);
+    }
+
+    ProductCategory(String displayName, boolean visible) {
         this.displayName = displayName;
+        this.visible = visible;
     }
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public boolean isVisible() {
+        return visible;
     }
 }

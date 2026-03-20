@@ -15,7 +15,15 @@
             <span th:text="${businessName}">Mi Negocio</span>
         </a>
         <nav class="topbar-nav">
-            <a href="#catalogo">Catalogo</a>
+            <div class="nav-dropdown">
+                <a href="#catalogo" class="nav-dropdown-toggle">Categorias</a>
+                <div class="nav-dropdown-menu">
+                    <a th:each="section : ${categorySections}"
+                       th:href="'#' + ${section.slug}"
+                       th:text="${section.title}">Categoria</a>
+                    <span class="nav-dropdown-empty" th:if="${categorySections.isEmpty()}">Pronto veras categorias aqui</span>
+                </div>
+            </div>
             <a href="#nosotros">Nosotros</a>
             <a th:href="${floatingWhatsappLink}" target="_blank" rel="noopener noreferrer">Cotizar</a>
         </nav>
@@ -26,7 +34,7 @@
     <div class="hero-content">
         <img th:src="${logoPath}" alt="Logo negocio" class="logo">
         <h1 th:text="${businessName}">Mi Negocio</h1>
-        <p class="hero-copy">Puertas, ventanas, barandas, mamparas, cocinas y estructuras metalicas con acabados profesionales para hogares y negocios.</p>
+        <p class="hero-copy">Puertas abatibles, puertas corredizas, barandas en acero, ventanas, mamparas, cocinas, espejos y estructuras metalicas con acabados profesionales.</p>
         <div class="social-strip" th:if="${!instagramUrl.isEmpty() or !facebookUrl.isEmpty() or !tiktokUrl.isEmpty()}">
             <a th:if="${!instagramUrl.isEmpty()}" th:href="${instagramUrl}" target="_blank" rel="noopener noreferrer">Instagram</a>
             <a th:if="${!facebookUrl.isEmpty()}" th:href="${facebookUrl}" target="_blank" rel="noopener noreferrer">Facebook</a>

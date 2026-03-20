@@ -32,7 +32,9 @@ public class AdminController {
     public String adminProducts(Model model) {
         model.addAttribute("products", productService.findAll());
         model.addAttribute("productForm", new ProductForm());
-        model.addAttribute("categories", ProductCategory.values());
+        model.addAttribute("categories", java.util.Arrays.stream(ProductCategory.values())
+                .filter(ProductCategory::isVisible)
+                .toList());
         return "admin-products";
     }
 
@@ -67,7 +69,9 @@ public class AdminController {
         model.addAttribute("productId", product.getId());
         model.addAttribute("productImagePath", product.getImagePath());
         model.addAttribute("productForm", form);
-        model.addAttribute("categories", ProductCategory.values());
+        model.addAttribute("categories", java.util.Arrays.stream(ProductCategory.values())
+                .filter(ProductCategory::isVisible)
+                .toList());
         return "edit-product";
     }
 

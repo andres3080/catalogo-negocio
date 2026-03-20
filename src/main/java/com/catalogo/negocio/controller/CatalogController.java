@@ -57,6 +57,7 @@ public class CatalogController {
                 .collect(Collectors.groupingBy(CatalogItemView::category));
 
         List<CategorySectionView> categorySections = Arrays.stream(ProductCategory.values())
+                .filter(ProductCategory::isVisible)
                 .filter(itemsByCategory::containsKey)
                 .map(category -> new CategorySectionView(
                         category.name(),
