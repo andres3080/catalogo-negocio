@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Panel Administrador</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="admin-body">
+<header class="admin-top">
+    <h1>Panel administrador</h1>
+    <form th:action="@{/logout}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <button class="btn-ghost" type="submit">Cerrar sesion</button>
+    </form>
+</header>
+
+<main class="admin-layout">
+    <section class="admin-card">
+        <h2>Agregar producto</h2>
+        <form th:action="@{/admin/products}" th:object="${productForm}" method="post" enctype="multipart/form-data" class="auth-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <label>Nombre del producto</label>
+            <input type="text" th:field="*{name}" required>
+
+            <label>Categoria</label>
+            <select th:field="*{category}" required>
+                <option th:each="category : ${categories}"
+                        th:value="${category}"
+                        th:text="${category.displayName}">Categoria</option>
+            </select>
+
+            <label>Descripcion corta</label>
+            <textarea th:field="*{description}" rows="4" placeholder="Ejemplo: Puerta en aluminio con vidrio, fabricada a medida y acabados resistentes."></textarea>
+
+            <label>Mensaje personalizado para WhatsApp (opcional)</label>
+            <input type="text" th:field="*{whatsappMessage}" placeholder="Hola, quiero cotizar este producto...">
+
+            <label>Imagen</label>
+            <input type="file" name="imageFile" accept="image/*" required>
+
+            <button type="submit" class="btn-primary">Guardar producto</button>
+        </form>
+    </section>
+
+    <section class="admin-card">
+        <h2>Productos actuales</h2>
+        <div class="admin-list">
+            <article class="admin-item" th:each="product : ${products}">
+                <img th:if="${product.imagePath != null}" th:src="${product.imagePath}" th:alt="${product.name}">
+                <div class="admin-item-content">
+                    <div>
+                        <span class="category-badge" th:text="${product.category != null ? product.category.displayName : 'Puertas de aluminio'}">Categoria</span>
+                        <h3 th:text="${product.name}">Producto</h3>
+                        <p class="admin-product-description" th:if="${product.description != null && !product.description.isBlank()}" th:text="${product.description}">Descripcion</p>
+                    </div>
+                    <div class="admin-actions">
+                        <a class="btn-secondary" th:href="@{'/admin/products/' + ${product.id} + '/edit'}">Editar</a>
+                        <form th:action="@{'/admin/products/' + ${product.id} + '/delete'}" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <button type="submit" class="btn-danger">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</main>
+</body>
+</html>

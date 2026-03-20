@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login Administrador</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="auth-body">
+<main class="auth-card">
+    <h1>Login administrador</h1>
+    <p class="subtitle">Ingresa para gestionar productos del catalogo.</p>
+
+    <form th:action="@{/login}" method="post" class="auth-form">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <label>Usuario</label>
+        <input type="text" name="username" required>
+
+        <label>Contrasena</label>
+        <input type="password" name="password" required>
+
+        <button type="submit" class="btn-primary">Entrar</button>
+    </form>
+
+    <p th:if="${param.error}" class="error-text">Credenciales invalidas.</p>
+    <p th:if="${param.registered}" class="ok-text">Registro exitoso. Ahora inicia sesion.</p>
+    <p th:if="${param.registrationDisabled}" class="subtitle">El registro publico de administradores esta desactivado.</p>
+
+    <a th:if="${registrationVisible}" th:href="@{/register}">Registrar nuevo administrador</a><br th:if="${registrationVisible}">
+    <a th:href="@{/catalog}">Volver al catalogo</a>
+</main>
+</body>
+</html>

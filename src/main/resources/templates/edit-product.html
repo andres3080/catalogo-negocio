@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Editar producto</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body class="admin-body">
+<main class="auth-card">
+    <h1>Editar producto</h1>
+    <p class="subtitle">Actualiza la informacion, cambia la categoria o reemplaza la imagen si lo necesitas.</p>
+
+    <form th:action="@{'/admin/products/' + ${productId} + '/edit'}" th:object="${productForm}" method="post" enctype="multipart/form-data" class="auth-form">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+        <label>Nombre del producto</label>
+        <input type="text" th:field="*{name}" required>
+
+        <label>Categoria</label>
+        <select th:field="*{category}" required>
+            <option th:each="category : ${categories}"
+                    th:value="${category}"
+                    th:text="${category.displayName}">Categoria</option>
+        </select>
+
+        <label>Descripcion corta</label>
+        <textarea th:field="*{description}" rows="4"></textarea>
+
+        <label>Mensaje personalizado para WhatsApp (opcional)</label>
+        <input type="text" th:field="*{whatsappMessage}">
+
+        <div class="current-image" th:if="${productImagePath != null}">
+            <span class="category-badge">Imagen actual</span>
+            <img th:src="${productImagePath}" alt="Imagen actual del producto">
+        </div>
+
+        <label>Nueva imagen (opcional)</label>
+        <input type="file" name="imageFile" accept="image/*">
+
+        <button type="submit" class="btn-primary">Guardar cambios</button>
+    </form>
+
+    <a th:href="@{/admin/products}">Volver al panel</a>
+</main>
+</body>
+</html>

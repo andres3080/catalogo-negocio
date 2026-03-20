@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${businessName} + ' | Catalogo'">Catalogo</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<a class="floating-whatsapp" th:href="${floatingWhatsappLink}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+<header class="topbar">
+    <div class="topbar-inner">
+        <a class="brand-mini" href="#inicio">
+            <img th:src="${logoPath}" alt="Logo negocio">
+            <span th:text="${businessName}">Mi Negocio</span>
+        </a>
+        <nav class="topbar-nav">
+            <a href="#catalogo">Catalogo</a>
+            <a href="#nosotros">Nosotros</a>
+            <a th:href="${floatingWhatsappLink}" target="_blank" rel="noopener noreferrer">Cotizar</a>
+        </nav>
+    </div>
+</header>
+<header class="hero" id="inicio">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <img th:src="${logoPath}" alt="Logo negocio" class="logo">
+        <h1 th:text="${businessName}">Mi Negocio</h1>
+        <p class="hero-copy">Puertas, ventanas, barandas, mamparas, cocinas y estructuras metalicas con acabados profesionales para hogares y negocios.</p>
+        <div class="social-strip" th:if="${!instagramUrl.isEmpty() or !facebookUrl.isEmpty() or !tiktokUrl.isEmpty()}">
+            <a th:if="${!instagramUrl.isEmpty()}" th:href="${instagramUrl}" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a th:if="${!facebookUrl.isEmpty()}" th:href="${facebookUrl}" target="_blank" rel="noopener noreferrer">Facebook</a>
+            <a th:if="${!tiktokUrl.isEmpty()}" th:href="${tiktokUrl}" target="_blank" rel="noopener noreferrer">TikTok</a>
+        </div>
+        <div class="hero-actions">
+            <a class="btn-primary pulse" href="#catalogo">Ver productos</a>
+            <a class="btn-outline" th:href="${heroWhatsappLink}" target="_blank" rel="noopener noreferrer">Hablar por WhatsApp</a>
+        </div>
+    </div>
+</header>
+
+<main id="catalogo" class="catalog-section">
+    <nav class="category-nav" th:if="${!categorySections.isEmpty()}">
+        <a th:each="section : ${categorySections}" th:href="'#' + ${section.slug}" th:text="${section.title}">Categoria</a>
+    </nav>
+
+    <h2>Nuestros productos</h2>
+    <p class="subtitle">Haz clic en COTIZA AQUI para recibir atencion personalizada.</p>
+
+    <section class="category-section" th:each="section : ${categorySections}">
+        <div class="category-header">
+            <h3 th:text="${section.title}">Categoria</h3>
+            <a class="category-anchor" th:href="'#' + ${section.slug}">Ver bloque</a>
+        </div>
+        <div class="grid" th:attr="id=${section.slug}">
+            <article class="card reveal" th:each="item : ${section.items}">
+                <img th:if="${item.imagePath != null}" th:src="${item.imagePath}" th:alt="${item.name}">
+                <div th:if="${item.imagePath == null}" class="image-placeholder">Sin imagen</div>
+                <div class="card-content">
+                    <span class="category-badge" th:text="${item.category.displayName}">Categoria</span>
+                    <h3 th:text="${item.name}">Nombre producto</h3>
+                    <p class="product-description" th:if="${item.description != null && !item.description.isBlank()}" th:text="${item.description}">Descripcion corta</p>
+                    <a class="btn-quote"
+                       th:href="${item.whatsappLink}"
+                       target="_blank"
+                       rel="noopener noreferrer">COTIZA AQUI</a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <div class="empty-state" th:if="${categorySections.isEmpty()}">
+        <h3>Pronto veras nuestros trabajos aqui</h3>
+        <p>Estamos preparando el catalogo por categorias para que puedas cotizar facil cada linea de productos.</p>
+    </div>
+</main>
+
+<section class="about-section" id="nosotros">
+    <div class="about-card">
+        <span class="category-badge">Sobre nosotros</span>
+        <h2 th:text="${aboutTitle}">Soluciones en aluminio, acero y vidrio</h2>
+        <p th:text="${aboutText}">Descripcion del negocio.</p>
+    </div>
+</section>
+
+<footer>
+    <a th:href="@{/login}">Acceso administrador</a>
+</footer>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
