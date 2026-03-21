@@ -84,7 +84,7 @@ public class AdminController {
             return "redirect:/admin/products/" + id + "/edit?error";
         }
 
-        Product product = productService.findById(id);
+        Product product = new Product();
         product.setName(form.getName());
         product.setCategory(form.getCategory());
         product.setDescription(form.getDescription());
@@ -95,7 +95,7 @@ public class AdminController {
             product.setImagePath(newImagePath);
         }
 
-        productService.save(product);
+        productService.updateProduct(id, product);
         return "redirect:/admin/products?updated";
     }
 
