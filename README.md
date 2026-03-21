@@ -57,6 +57,11 @@ Variables principales:
 - `APP_SOCIAL_INSTAGRAM`
 - `APP_SOCIAL_FACEBOOK`
 - `APP_ADMIN_REGISTRATION_ENABLED`
+- `APP_CLOUDINARY_ENABLED`
+- `APP_CLOUDINARY_CLOUD_NAME`
+- `APP_CLOUDINARY_API_KEY`
+- `APP_CLOUDINARY_API_SECRET`
+- `APP_CLOUDINARY_FOLDER`
 
 ## Docker
 
@@ -118,6 +123,11 @@ APP_LOGO_PATH=/img/logo.jpg
 APP_ADMIN_REGISTRATION_ENABLED=false
 APP_SOCIAL_INSTAGRAM=https://instagram.com/tu_cuenta
 APP_SOCIAL_FACEBOOK=https://facebook.com/tu_pagina
+APP_CLOUDINARY_ENABLED=true
+APP_CLOUDINARY_CLOUD_NAME=tu_cloud_name
+APP_CLOUDINARY_API_KEY=tu_api_key
+APP_CLOUDINARY_API_SECRET=tu_api_secret
+APP_CLOUDINARY_FOLDER=catalogo-negocio
 ```
 
 ### 5. Publicar
@@ -128,8 +138,42 @@ APP_SOCIAL_FACEBOOK=https://facebook.com/tu_pagina
 ## Importante para produccion
 
 - la carpeta `uploads/` en plataformas cloud puede no ser persistente
-- para un uso real conviene mover imagenes a Cloudinary, S3 o similar
+- este proyecto ya soporta Cloudinary y esa es la opcion recomendada para produccion
 - el registro publico de administradores debe mantenerse en `false`
+
+## Cloudinary
+
+### 1. Crear cuenta
+
+Entra a [Cloudinary](https://cloudinary.com/) y crea una cuenta.
+
+### 2. Copiar credenciales
+
+En el dashboard de Cloudinary copia:
+
+- `Cloud name`
+- `API Key`
+- `API Secret`
+
+### 3. Configurar Railway
+
+Agrega estas variables en el servicio `catalogo-negocio`:
+
+```text
+APP_CLOUDINARY_ENABLED=true
+APP_CLOUDINARY_CLOUD_NAME=tu_cloud_name
+APP_CLOUDINARY_API_KEY=tu_api_key
+APP_CLOUDINARY_API_SECRET=tu_api_secret
+APP_CLOUDINARY_FOLDER=catalogo-negocio
+```
+
+### 4. Redeploy
+
+Cuando guardes las variables, Railway hara redeploy automaticamente.
+
+### 5. Resultado
+
+Las nuevas imagenes ya no se guardaran en `uploads/`, sino en Cloudinary usando URLs publicas persistentes.
 
 ## Verificacion movil
 
