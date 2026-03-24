@@ -23,6 +23,9 @@ public class CatalogController {
     @Value("${app.whatsapp-number}")
     private String whatsappNumber;
 
+    @Value("${app.whatsapp-number-alt:}")
+    private String whatsappNumberAlt;
+
     @Value("${app.business-name}")
     private String businessName;
 
@@ -43,6 +46,12 @@ public class CatalogController {
 
     @Value("${app.about-text}")
     private String aboutText;
+
+    @Value("${app.contact-email:aluminioacerodjd@gmail.com}")
+    private String contactEmail;
+
+    @Value("${app.contact-city:Cartagena}")
+    private String contactCity;
 
     public CatalogController(ProductService productService) {
         this.productService = productService;
@@ -77,6 +86,12 @@ public class CatalogController {
                 + URLEncoder.encode("Hola, quiero una cotizacion para un trabajo en aluminio o acero.", StandardCharsets.UTF_8));
         model.addAttribute("heroWhatsappLink", "https://wa.me/" + whatsappNumber + "?text="
                 + URLEncoder.encode("Hola, quiero asesoramiento para un proyecto en aluminio o acero.", StandardCharsets.UTF_8));
+        model.addAttribute("primaryWhatsappLink", buildWhatsappLink(whatsappNumber, "Hola, quiero una cotizacion para un trabajo en aluminio o acero."));
+        model.addAttribute("secondaryWhatsappLink", buildWhatsappLink(whatsappNumberAlt, "Hola, quiero informacion sobre un trabajo en aluminio o acero."));
+        model.addAttribute("primaryWhatsappDisplay", formatPhone(whatsappNumber));
+        model.addAttribute("secondaryWhatsappDisplay", formatPhone(whatsappNumberAlt));
+        model.addAttribute("contactEmail", contactEmail);
+        model.addAttribute("contactCity", contactCity);
         return "catalog";
     }
 
@@ -86,9 +101,26 @@ public class CatalogController {
         if (message == null || message.isBlank()) {
             message = "Hola, quiero cotizar este producto: " + product.getName();
         }
-        String encodedMessage = URLEncoder.encode(message, StandardCharsets.UTF_8);
-        String link = "https://wa.me/" + whatsappNumber + "?text=" + encodedMessage;
+        String link = buildWhatsappLink(whatsappNumber, message);
         return new CatalogItemView(product.getId(), product.getName(), category, product.getImagePath(), link, product.getDescription());
+    }
+
+    private String buildWhatsappLink(String phone, String message) {
+        if (phone == null || phone.isBlank()) {
+            return "#";
+        }
+        String encodedMessage = URLEncoder.encode(message, StandardCharsets.UTF_8);
+        return "https://wa.me/" + phone + "?text=" + encodedMessage;
+    }
+
+    private String formatPhone(String phone) {
+        if (phone == null || phone.isBlank()) {
+            return "";
+        }
+        if (phone.length() == 12 && phone.startsWith("57")) {
+            return "+57 " + phone.substring(2, 5) + " " + phone.substring(5);
+        }
+        return phone;
     }
 
     public record CatalogItemView(Long id, String name, ProductCategory category, String imagePath, String whatsappLink,

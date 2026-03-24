@@ -16,8 +16,9 @@
         </a>
         <nav class="topbar-nav">
             <div class="nav-dropdown">
-                <a href="#catalogo" class="nav-dropdown-toggle">Categorias</a>
+                <button type="button" class="nav-dropdown-toggle" aria-expanded="false" aria-controls="category-menu">Categorias</button>
                 <div class="nav-dropdown-menu">
+                    <div id="category-menu"></div>
                     <a th:each="section : ${categorySections}"
                        th:href="'#' + ${section.slug}"
                        th:text="${section.title}">Categoria</a>
@@ -88,6 +89,55 @@
         <span class="category-badge">Sobre nosotros</span>
         <h2 th:text="${aboutTitle}">Soluciones en aluminio, acero y vidrio</h2>
         <p th:text="${aboutText}">Descripcion del negocio.</p>
+    </div>
+</section>
+
+<section class="contact-section" id="contacto">
+    <div class="contact-card">
+        <span class="category-badge">Contacto</span>
+        <h2>Hablemos de tu proyecto</h2>
+        <p class="contact-copy">Atendemos trabajos personalizados en aluminio, acero y vidrio con acompanamiento cercano desde la idea hasta la instalacion.</p>
+        <div class="contact-grid">
+            <a class="contact-item contact-whatsapp" th:href="${primaryWhatsappLink}" target="_blank" rel="noopener noreferrer">
+                <span class="contact-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="contact-svg">
+                        <path fill="currentColor" d="M19.05 4.91A9.82 9.82 0 0 0 12.03 2c-5.45 0-9.9 4.43-9.9 9.88 0 1.74.45 3.44 1.31 4.94L2 22l5.33-1.39a9.9 9.9 0 0 0 4.7 1.2h.01c5.45 0 9.89-4.43 9.89-9.88a9.8 9.8 0 0 0-2.88-7.02Zm-7.02 15.24h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.16.82.84-3.08-.2-.32a8.14 8.14 0 0 1-1.25-4.37c0-4.5 3.68-8.16 8.2-8.16 2.19 0 4.24.85 5.79 2.39a8.1 8.1 0 0 1 2.4 5.78c0 4.51-3.68 8.17-8.13 8.17Zm4.48-6.12c-.24-.12-1.43-.7-1.65-.78-.22-.08-.38-.12-.54.12-.16.23-.62.77-.76.93-.14.16-.28.18-.52.06-.24-.12-1-.37-1.9-1.17-.7-.63-1.18-1.4-1.32-1.64-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.48-.4-.41-.54-.42h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.69 2.58 4.1 3.61.57.25 1.02.4 1.37.51.58.18 1.1.16 1.52.1.46-.07 1.43-.58 1.63-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28Z"/>
+                    </svg>
+                </span>
+                <strong>WhatsApp 1</strong>
+                <span th:text="${primaryWhatsappDisplay}">+57 323 9902251</span>
+            </a>
+            <a class="contact-item contact-whatsapp" th:href="${secondaryWhatsappLink}" target="_blank" rel="noopener noreferrer">
+                <span class="contact-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="contact-svg">
+                        <path fill="currentColor" d="M19.05 4.91A9.82 9.82 0 0 0 12.03 2c-5.45 0-9.9 4.43-9.9 9.88 0 1.74.45 3.44 1.31 4.94L2 22l5.33-1.39a9.9 9.9 0 0 0 4.7 1.2h.01c5.45 0 9.89-4.43 9.89-9.88a9.8 9.8 0 0 0-2.88-7.02Zm-7.02 15.24h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.16.82.84-3.08-.2-.32a8.14 8.14 0 0 1-1.25-4.37c0-4.5 3.68-8.16 8.2-8.16 2.19 0 4.24.85 5.79 2.39a8.1 8.1 0 0 1 2.4 5.78c0 4.51-3.68 8.17-8.13 8.17Zm4.48-6.12c-.24-.12-1.43-.7-1.65-.78-.22-.08-.38-.12-.54.12-.16.23-.62.77-.76.93-.14.16-.28.18-.52.06-.24-.12-1-.37-1.9-1.17-.7-.63-1.18-1.4-1.32-1.64-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.48-.4-.41-.54-.42h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.69 2.58 4.1 3.61.57.25 1.02.4 1.37.51.58.18 1.1.16 1.52.1.46-.07 1.43-.58 1.63-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28Z"/>
+                    </svg>
+                </span>
+                <strong>WhatsApp 2</strong>
+                <span th:text="${secondaryWhatsappDisplay}">+57 3147530367</span>
+            </a>
+            <a class="contact-item contact-mail" th:href="'mailto:' + ${contactEmail}">
+                <span class="contact-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="contact-svg">
+                        <path fill="#EA4335" d="M3 6.75 12 13l9-6.25V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v.75Z"/>
+                        <path fill="#34A853" d="M21 8.2 12.6 14a1 1 0 0 1-1.2 0L3 8.2V18a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.2Z"/>
+                        <path fill="#4285F4" d="M3 8.2V18a2 2 0 0 0 2 2h.5V10.6L3 8.2Z"/>
+                        <path fill="#FBBC04" d="M18.5 20H19a2 2 0 0 0 2-2V8.2l-2.5 2.4V20Z"/>
+                    </svg>
+                </span>
+                <strong>Correo</strong>
+                <span class="contact-email" th:text="${contactEmail}">aluminioacerodjd@gmail.com</span>
+            </a>
+            <div class="contact-item contact-location">
+                <span class="contact-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" class="contact-svg">
+                        <path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.18 6.08 12.05 6.34 12.34a.9.9 0 0 0 1.32 0C12.92 21.05 19 14.18 19 9a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/>
+                    </svg>
+                </span>
+                <strong>Ubicacion</strong>
+                <span th:text="${contactCity}">Cartagena</span>
+            </div>
+        </div>
     </div>
 </section>
 
