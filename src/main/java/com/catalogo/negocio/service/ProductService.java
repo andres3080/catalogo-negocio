@@ -23,7 +23,7 @@ public class ProductService {
 
     @Transactional
     public Product save(Product product) {
-        return productRepository.save(product);
+        return productRepository.saveAndFlush(product);
     }
 
     public Product findById(Long id) {
@@ -43,7 +43,7 @@ public class ProductService {
             existingProduct.setImagePath(updatedProduct.getImagePath());
         }
 
-        return productRepository.save(existingProduct);
+        return productRepository.saveAndFlush(existingProduct);
     }
 
     public void deleteById(Long id) {

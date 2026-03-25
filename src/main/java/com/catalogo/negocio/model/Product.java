@@ -30,10 +30,10 @@ public class Product {
     @Size(max = 400)
     private String description;
 
-    @Size(max = 255)
+    @Size(max = 1000)
     private String imagePath;
 
-    @Size(max = 255)
+    @Size(max = 500)
     private String whatsappMessage;
 
     public Long getId() {

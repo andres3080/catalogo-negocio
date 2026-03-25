@@ -30,20 +30,18 @@ public class AdminController {
 
     @GetMapping("/admin/products")
     public String adminProducts(Model model) {
-        model.addAttribute("products", productService.findAll());
-        model.addAttribute("productForm", new ProductForm());
-        model.addAttribute("categories", java.util.Arrays.stream(ProductCategory.values())
-                .filter(ProductCategory::isVisible)
-                .toList());
+        populateAdminProductsModel(model, new ProductForm());
         return "admin-products";
     }
 
     @PostMapping("/admin/products")
     public String createProduct(@Valid @ModelAttribute("productForm") ProductForm form,
                                 BindingResult bindingResult,
+                                Model model,
                                 @RequestParam("imageFile") MultipartFile imageFile) {
         if (bindingResult.hasErrors()) {
-            return "redirect:/admin/products?error";
+            populateAdminProductsModel(model, form);
+            return "admin-products";
         }
 
         Product product = new Product();
@@ -66,12 +64,7 @@ public class AdminController {
         form.setDescription(product.getDescription());
         form.setWhatsappMessage(product.getWhatsappMessage());
 
-        model.addAttribute("productId", product.getId());
-        model.addAttribute("productImagePath", product.getImagePath());
-        model.addAttribute("productForm", form);
-        model.addAttribute("categories", java.util.Arrays.stream(ProductCategory.values())
-                .filter(ProductCategory::isVisible)
-                .toList());
+        populateEditProductModel(model, product.getId(), product.getImagePath(), form);
         return "edit-product";
     }
 
@@ -79,9 +72,12 @@ public class AdminController {
     public String updateProduct(@PathVariable Long id,
                                 @Valid @ModelAttribute("productForm") ProductForm form,
                                 BindingResult bindingResult,
+                                Model model,
                                 @RequestParam("imageFile") MultipartFile imageFile) {
         if (bindingResult.hasErrors()) {
-            return "redirect:/admin/products/" + id + "/edit?error";
+            String currentImagePath = productService.findById(id).getImagePath();
+            populateEditProductModel(model, id, currentImagePath, form);
+            return "edit-product";
         }
 
         Product product = new Product();
@@ -115,7 +111,7 @@ public class AdminController {
         @Size(max = 400)
         private String description = "";
 
-        @Size(max = 255)
+        @Size(max = 500)
         private String whatsappMessage = "";
 
         public String getName() {
@@ -149,5 +145,22 @@ public class AdminController {
         public void setWhatsappMessage(String whatsappMessage) {
             this.whatsappMessage = whatsappMessage;
         }
+    }
+
+    private void populateAdminProductsModel(Model model, ProductForm form) {
+        model.addAttribute("products", productService.findAll());
+        model.addAttribute("productForm", form);
+        model.addAttribute("categories", java.util.Arrays.stream(ProductCategory.values())
+                .filter(ProductCategory::isVisible)
+                .toList());
+    }
+
+    private void populateEditProductModel(Model model, Long productId, String productImagePath, ProductForm form) {
+        model.addAttribute("productId", productId);
+        model.addAttribute("productImagePath", productImagePath);
+        model.addAttribute("productForm", form);
+        model.addAttribute("categories", java.util.Arrays.stream(ProductCategory.values())
+                .filter(ProductCategory::isVisible)
+                .toList());
     }
 }
